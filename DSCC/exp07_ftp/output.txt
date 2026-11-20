@@ -1,0 +1,19 @@
+--- Case 1: file exists ---
+Terminal 1 $ java FTPServer
+Server started on port 5050...
+Client requested: sample.txt
+
+Terminal 2 $ java FTPClient
+Enter file name: sample.txt
+File contents:
+Hello from the FTP server!
+This file was sent over a socket.
+
+--- Case 2: file missing ---
+Terminal 1 $ java FTPServer
+Server started on port 5050...
+Client requested: notes.txt
+
+Terminal 2 $ java FTPClient
+Enter file name: notes.txt
+File not found

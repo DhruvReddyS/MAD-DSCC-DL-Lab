@@ -1,0 +1,11 @@
+id  name     marks
+--  -------  -----
+1   Adithya  85   
+2   Ravi     72   
+id  name     marks
+--  -------  -----
+1   Adithya  90   
+2   Ravi     72   
+id  name     marks
+--  -------  -----
+1   Adithya  90   

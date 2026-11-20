@@ -1,0 +1,25 @@
+mysql> SELECT * FROM student;          -- after INSERT
++----+---------+-------+
+| id | name    | marks |
++----+---------+-------+
+|  1 | Adithya |    85 |
+|  2 | Ravi    |    72 |
++----+---------+-------+
+2 rows in set
+
+mysql> SELECT * FROM student;          -- after UPDATE
++----+---------+-------+
+| id | name    | marks |
++----+---------+-------+
+|  1 | Adithya |    90 |
+|  2 | Ravi    |    72 |
++----+---------+-------+
+2 rows in set
+
+mysql> SELECT * FROM student;          -- after DELETE
++----+---------+-------+
+| id | name    | marks |
++----+---------+-------+
+|  1 | Adithya |    90 |
++----+---------+-------+
+1 row in set

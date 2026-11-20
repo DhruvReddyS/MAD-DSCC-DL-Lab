@@ -1,0 +1,2 @@
+Hello from the FTP server!
+This file was sent over a socket.

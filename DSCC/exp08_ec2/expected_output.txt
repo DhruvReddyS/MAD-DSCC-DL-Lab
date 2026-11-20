@@ -1,0 +1,6 @@
+Browser → http://PUBLIC-IP-ADDRESS
+
+  Welcome to AWS EC2
+  My webpage is running successfully.
+
+(Tab title: "My AWS Web Server")
