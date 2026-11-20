@@ -38,10 +38,8 @@ MAD_PROCEDURE = [
     "Name it anything, set <b>Language: Java</b>, Minimum SDK API 24 or higher → Finish.",
     "Open <code>app/java/&lt;your package&gt;/MainActivity.java</code>, delete everything and paste the given MainActivity.java. "
     "<b>Keep the first line</b> <code>package ...;</code> the same as your project's package.",
-    "Open <code>app/manifests/AndroidManifest.xml</code> and add only the lines shown in <b>Manifest lines to add</b> "
-    "(permissions go just above <code>&lt;application&gt;</code>; a <code>&lt;receiver&gt;</code> goes inside it). "
-    "The full manifest is given for reference.",
-    "No layout XML is needed: every program builds its screen in Java.",
+    "<b>No XML to write.</b> The screen is built in Java, so <code>activity_main.xml</code> is not used. "
+    "Only GPS, SMS and RSS need 1–2 permission lines pasted in <code>AndroidManifest.xml</code> just above <code>&lt;application&gt;</code>.",
     "Click <b>Run ▶</b> and pick an emulator. Allow the permission if a popup asks.",
 ]
 
@@ -65,12 +63,12 @@ MAD = [
          theory=[
              "<b>Internal storage</b> is private to the app; <b>external storage</b> (SD card / shared storage) is larger and can hold files like documents and media.",
              "<code>getExternalFilesDir(null)</code> returns the app's own folder on external storage: <code>/storage/emulated/0/Android/data/&lt;package&gt;/files</code>. It is removed when the app is uninstalled.",
-             "Permission: <code>WRITE_EXTERNAL_STORAGE</code> was needed up to Android 9 (API 28). From Android 10 (scoped storage) the app's own external folder needs <b>no permission</b>, so we add it with <code>maxSdkVersion=\"28\"</code>.",
+             "Permission: <code>WRITE_EXTERNAL_STORAGE</code> was needed up to Android 9 (API 28). From Android 10 (scoped storage) the app's own external folder needs <b>no permission</b>, so nothing is added to the manifest.",
              "Before writing you can check that storage is mounted with <code>Environment.getExternalStorageState()</code>.",
              "Writing uses normal Java I/O: <code>FileWriter</code> / <code>FileOutputStream</code>. Reading uses <code>FileReader</code> + <code>BufferedReader</code>.",
              "In the app, the <b>Write</b> button saves the EditText text to <code>mydata.txt</code> and shows the path; the <b>Read</b> button reads it back.",
          ],
-         manifest_add='<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"\n    android:maxSdkVersion="28" />'),
+         manifest_add=None),
     dict(id="set3", title="Set 3 · SMS Alert (Broadcast Receiver)",
          question="What is a Broadcast Receiver? Explain how an app receives a message and raises an alert. Write an app that shows an alert when an SMS arrives.",
          aim="To build an Android app that uses a BroadcastReceiver to detect an incoming SMS and show an alert dialog.",
@@ -107,7 +105,7 @@ MAD = [
              "<code>Intent.createChooser(intent, \"Send email using\")</code> lets the user pick the app; <code>startActivity()</code> launches it.",
              "No special permission is needed because the mail app does the actual sending.",
          ],
-         manifest_add="(nothing to add - no permission needed)"),
+         manifest_add=None),
     dict(id="set6", title="Set 6 · Calculator",
          question="Explain the components and event handling of a native calculator app. Write a calculator app for + − × ÷.",
          aim="To build a simple Android calculator that adds, subtracts, multiplies and divides two numbers.",
@@ -119,19 +117,19 @@ MAD = [
              "Errors are handled: dividing by 0 shows \"Cannot divide by 0\"; empty input is caught by <code>try/catch</code> and shows \"Enter both numbers\".",
              "The answer is shown with <code>setText(\"Result: \" + r)</code>. No permission is needed.",
          ],
-         manifest_add="(nothing to add - no permission needed)"),
+         manifest_add=None),
     dict(id="set7", title="Set 7 · Alarm Clock",
          question="Explain alarms in Android. How does AlarmManager schedule and notify? Write an alarm clock app.",
          aim="To build an Android alarm clock that lets the user pick a time and shows a message and plays a tone at that time.",
          theory=[
              "<b>AlarmManager</b> is a system service that runs an action at a future time, even if the app is closed.",
-             "The action is wrapped in a <b>PendingIntent</b> (here <code>getBroadcast()</code> for our receiver) so the system can fire it later on the app's behalf.",
-             "<code>setExact(AlarmManager.RTC_WAKEUP, timeMillis, pi)</code> schedules it; RTC_WAKEUP uses wall-clock time and wakes the device. Other methods: <code>set()</code>, <code>setRepeating()</code>, <code>cancel()</code>.",
+             "The action to run is given either as a <b>PendingIntent</b> (to a BroadcastReceiver) or, simpler, as an <code>OnAlarmListener</code> callback (used here).",
+             "<code>setExact(AlarmManager.RTC_WAKEUP, timeMillis, tag, listener, null)</code> schedules it; RTC_WAKEUP uses wall-clock time and wakes the device. Other methods: <code>set()</code>, <code>setRepeating()</code>, <code>cancel()</code>.",
              "The time is taken from a <b>TimePicker</b> and put into a <code>Calendar</code>; if it is already past, one day is added.",
-             "At alarm time the system sends the broadcast to <code>AlarmReceiver</code>; its <code>onReceive()</code> shows a Toast and plays the alarm ringtone using <code>RingtoneManager</code>.",
-             "Manifest: <code>USE_EXACT_ALARM</code> permission (for exact alarms on Android 13+) and the <code>&lt;receiver&gt;</code> entry.",
+             "At alarm time the listener runs: it shows a Toast and plays the alarm ringtone using <code>RingtoneManager</code>.",
+             "An exact alarm with a listener needs <b>no permission and no manifest entry</b> (a PendingIntent version would need <code>SCHEDULE_EXACT_ALARM</code> and a <code>&lt;receiver&gt;</code>).",
          ],
-         manifest_add='<!-- above <application> -->\n<uses-permission android:name="android.permission.USE_EXACT_ALARM" />\n\n<!-- inside <application>, after </activity> -->\n<receiver android:name=".MainActivity$AlarmReceiver" />'),
+         manifest_add=None),
 ]
 
 
@@ -140,10 +138,12 @@ def build_mad():
     progs = []
     for s in MAD:
         p = dict(s)
-        p["files"] = files(f"MAD/src/{s['id']}/MainActivity.java", f"MAD/src/{s['id']}/AndroidManifest.xml")
-        p["run"] = ["Follow the common steps at the top (Empty Views Activity, Java).",
+        p["files"] = files(f"MAD/src/{s['id']}/MainActivity.java")
+        if not s.get("manifest_add"): p.pop("manifest_add", None)
+        p["run"] = ["New Project → <b>Empty Views Activity</b> → Language <b>Java</b>.",
                     "Paste MainActivity.java (keep your own <code>package</code> line).",
-                    "Add the manifest lines shown below.",
+                    "Paste the permission line(s) shown below into AndroidManifest.xml above <code>&lt;application&gt;</code>." if s.get("manifest_add")
+                    else "Nothing to add in the manifest, no XML needed.",
                     *s.get("extra_run", []),
                     "Run ▶ on the emulator."]
         p.pop("extra_run", None)
@@ -352,7 +352,7 @@ def build_dl():
 # -------------------------------------------------------------------- page
 SUBJECTS = [
     {"id": "mad", "name": "MAD", "full": "Mobile Application Development",
-     "intro": "Android programs in Java. Each set has the theory answer, MainActivity.java and AndroidManifest.xml.",
+     "intro": "Android programs in Java. Each set has the theory answer and one file: MainActivity.java. No XML needed.",
      "procedure": MAD_PROCEDURE, "programs": build_mad()},
     {"id": "dscc", "name": "DSCC", "full": "Distributed Systems & Cloud Computing",
      "intro": "Experiments 6–12: aim, program/commands, how to run and output.",

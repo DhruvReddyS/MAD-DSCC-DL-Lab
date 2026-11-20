@@ -4,7 +4,7 @@
   "set2": "Typed \"Hello SD Card\"\n\nWRITE TO SD CARD →\nSaved to: /storage/emulated/0/Android/data/com.example.sdcard/files/mydata.txt\n\nREAD FROM SD CARD →\nFile data: Hello SD Card",
   "set3": "SMS sent from 9999 with text \"Hello\" (Extended controls > Phone):\n\nAlert dialog\n  Title  : New Message from 9999\n  Message: Hello\n  [ OK ]",
   "set4": "A scrolling list of the latest BBC News headlines (one title per row).",
-  "set5": "Tapping SEND EMAIL opens the \"Send email using\" chooser (Gmail etc.) with the message prefilled.\nChoosing Gmail opens compose with To, Subject and Message already filled.",
+  "set5": "Tapping SEND EMAIL opens the \"Send email using\" chooser (Gmail, Drive, Quick Share…) with the message prefilled.\nPick Gmail to open the compose screen with To, Subject and Message passed in.",
   "set6": "Number 1 = 12, Number 2 = 4\n  +  →  Result: 16.0\n  -  →  Result: 8.0\n  *  →  Result: 48.0\n  /  →  Result: 3.0\n\nNumber 1 = 12, Number 2 = 0\n  /  →  Cannot divide by 0",
-  "set7": "SET ALARM → toast \"Alarm set for HH:MM\"\nAt that time → toast \"Wake up! Alarm ringing\" and the alarm tone plays."
+  "set7": "Picked 10:25 PM → SET ALARM → toast \"Alarm set for 22:25\"\nAt 22:25:00 → toast \"Wake up! Alarm ringing\" and the alarm tone plays."
 }

@@ -108,8 +108,8 @@
     m.appendChild(list(prog.run));
 
     if (prog.manifest_add) {
-      m.appendChild(el("h3", null, "Manifest lines to add"));
-      m.appendChild(codeBlock("AndroidManifest.xml (add these)", prog.manifest_add, "markup"));
+      m.appendChild(el("h3", null, "Permission to add (AndroidManifest.xml, above &lt;application&gt;)"));
+      m.appendChild(codeBlock("AndroidManifest.xml (paste above <application>)", prog.manifest_add, "markup"));
     }
 
     m.appendChild(el("h3", null, prog.files.length > 1 ? "Program files" : "Program"));

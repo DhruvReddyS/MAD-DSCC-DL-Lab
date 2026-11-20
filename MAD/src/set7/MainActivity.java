@@ -1,7 +1,6 @@
 package com.example.alarm;
 
-import android.app.*;
-import android.content.*;
+import android.app.AlarmManager;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.widget.*;
@@ -25,18 +24,12 @@ public class MainActivity extends AppCompatActivity {
             c.set(Calendar.SECOND, 0);
             if (c.before(Calendar.getInstance())) c.add(Calendar.DATE, 1);
 
-            PendingIntent pi = PendingIntent.getBroadcast(this, 0,
-                    new Intent(this, AlarmReceiver.class), PendingIntent.FLAG_IMMUTABLE);
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            am.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+            am.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), "alarm", () -> {
+                Toast.makeText(this, "Wake up! Alarm ringing", Toast.LENGTH_LONG).show();
+                RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)).play();
+            }, null);
             Toast.makeText(this, "Alarm set for " + tp.getHour() + ":" + tp.getMinute(), Toast.LENGTH_SHORT).show();
         });
-    }
-
-    public static class AlarmReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent i) {
-            Toast.makeText(c, "Wake up! Alarm ringing", Toast.LENGTH_LONG).show();
-            RingtoneManager.getRingtone(c, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)).play();
-        }
     }
 }
