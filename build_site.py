@@ -372,7 +372,7 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lab Programs</title>
 <meta name="description" content="Short exam-ready lab programs for MAD, DSCC and DL with theory, code and output.">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=__V__">
 </head>
 <body>
 <header class="top">
@@ -387,7 +387,7 @@ TEMPLATE = """<!DOCTYPE html>
 <script id="data" type="application/json">__DATA__</script>
 <script>window.Prism = { manual: true };</script>
 __PRISM__
-<script src="site.js"></script>
+<script src="site.js?v=__V__"></script>
 </body>
 </html>
 """
@@ -397,7 +397,9 @@ def main():
     data = json.dumps(SUBJECTS, ensure_ascii=False).replace("</", "<\\/")
     prism = "\n".join(f'<script src="{PRISM}prism-{l}.min.js" defer></script>' for l in PRISM_LANGS)
     prism = prism.replace(" defer", "")
-    html = TEMPLATE.replace("__DATA__", data).replace("__PRISM__", prism)
+    import hashlib
+    v = hashlib.md5((ROOT / "site.js").read_bytes() + (ROOT / "style.css").read_bytes()).hexdigest()[:8]
+    html = TEMPLATE.replace("__DATA__", data).replace("__PRISM__", prism).replace("__V__", v)
     (ROOT / "index.html").write_text(html, encoding="utf-8")
     n = sum(len(s["programs"]) for s in SUBJECTS)
     print(f"index.html written: {n} programs, {len(html) // 1024} KB")
