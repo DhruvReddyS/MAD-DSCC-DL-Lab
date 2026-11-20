@@ -280,7 +280,7 @@ DSCC = [
 def build_dscc():
     progs = []
     for e in DSCC:
-        p = {k: v for k, v in e.items() if k not in ("dir", "src", "out", "badge")}
+        p = {k: v for k, v in e.items() if k not in ("dir", "src", "out", "badge", "theory")}
         p["files"] = files(*[f"DSCC/{e['dir']}/{f}" for f in e["src"]])
         p["output"] = {"text": read(f"DSCC/{e['dir']}/{e['out']}"), "badge": e["badge"]}
         progs.append(p)
@@ -338,7 +338,7 @@ DL = [
 def build_dl():
     progs = []
     for d in DL:
-        p = dict(d)
+        p = {k: v for k, v in d.items() if k != "theory"}
         p["files"] = files(f"DL/{d['id']}.py")
         run = list(DL_RUN)
         run[1] = f"<code>python {d['id']}.py</code> (takes under a minute on a laptop CPU)."
@@ -355,7 +355,7 @@ SUBJECTS = [
      "intro": "Android programs in Java. Each set has the theory answer, MainActivity.java and AndroidManifest.xml.",
      "procedure": MAD_PROCEDURE, "programs": build_mad()},
     {"id": "dscc", "name": "DSCC", "full": "Distributed Systems & Cloud Computing",
-     "intro": "Experiments 6–12: aim, explanation, shortest program/commands and output.",
+     "intro": "Experiments 6–12: aim, program/commands, how to run and output.",
      "programs": build_dscc()},
     {"id": "dl", "name": "DL", "full": "Deep Learning",
      "intro": "Keras programs: CNN, RNN, LSTM and GAN. Each runs in under a minute on a CPU.",

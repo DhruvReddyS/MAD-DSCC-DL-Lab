@@ -99,8 +99,10 @@
     if (prog.question) m.appendChild(el("p", "question")).textContent = "Q: " + prog.question;
     m.appendChild(el("div", "card aim", "<b>Aim:</b> " + prog.aim));
 
-    m.appendChild(el("h3", null, subj.id === "mad" ? "Theory" : "Explanation"));
-    m.appendChild(list(prog.theory));
+    if (prog.theory) {
+      m.appendChild(el("h3", null, "Theory"));
+      m.appendChild(list(prog.theory));
+    }
 
     m.appendChild(el("h3", null, "How to run"));
     m.appendChild(list(prog.run));
