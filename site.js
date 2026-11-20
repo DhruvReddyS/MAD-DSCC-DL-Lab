@@ -146,3 +146,16 @@
   window.addEventListener("hashchange", render);
   render();
 })();
+
+// light / dark toggle (dark is default)
+(function () {
+  const btn = document.getElementById("themeBtn");
+  const root = document.documentElement;
+  const paint = () => { btn.textContent = root.dataset.theme === "light" ? "🌙 Dark" : "☀️ Light"; };
+  btn.addEventListener("click", () => {
+    if (root.dataset.theme === "light") delete root.dataset.theme; else root.dataset.theme = "light";
+    try { localStorage.setItem("theme", root.dataset.theme || "dark"); } catch (e) {}
+    paint();
+  });
+  paint();
+})();

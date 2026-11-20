@@ -373,12 +373,16 @@ TEMPLATE = """<!DOCTYPE html>
 <title>Lab Programs</title>
 <meta name="description" content="Short exam-ready lab programs for MAD, DSCC and DL with theory, code and output.">
 <link rel="stylesheet" href="style.css?v=__V__">
+<script>try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}</script>
 </head>
 <body>
 <header class="top">
   <div class="brand">Lab Programs</div>
   <nav class="tabs" id="tabs" role="tablist"></nav>
-  <button class="menu-btn" id="menuBtn" aria-label="Show program list">☰ Programs</button>
+  <div class="top-right">
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch light/dark theme">☀️ Light</button>
+    <button class="menu-btn" id="menuBtn" aria-label="Show program list">☰ Programs</button>
+  </div>
 </header>
 <div class="layout">
   <aside class="side" id="side"></aside>
