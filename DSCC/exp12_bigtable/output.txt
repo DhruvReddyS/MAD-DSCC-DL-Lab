@@ -1,0 +1,19 @@
+Step 3 (gcloud bigtable instances create ...):
+WARNING: The --cluster argument is deprecated; use --cluster-config instead.
+(the old flags still work, the warning can be ignored)
+Created instance [my-instance].
+
+Steps 5-7: createtable / createfamily / set  → no output means success
+
+Step 8: cbt -project=YOUR_PROJECT_ID -instance=my-instance read my-table
+----------------------------------------
+row1
+  cf1:age                                  @ 2026/11/20-17:17:38.969000
+    "25"
+  cf1:dept                                 @ 2026/11/20-17:17:38.974000
+    "CSE"
+  cf1:name                                 @ 2026/11/20-17:17:38.962000
+    "Alice"
+
+Steps 9-10: deletefamily / deleterow → no output (success)
+read my-table again → empty (row deleted)

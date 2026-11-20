@@ -1,8 +1,21 @@
-# On the Ubuntu EC2 instance (after: ssh -i key.pem ubuntu@PUBLIC-IP)
+# Step 1: Update Ubuntu
 sudo apt update
+sudo apt upgrade -y
+
+# Step 2: Install Node.js
 sudo apt install nodejs npm -y
 node --version
-mkdir MyApp && cd MyApp
-nano app.js          # paste the code, save
+
+# Step 3: Create Project
+mkdir MyApp
+cd MyApp
+nano app.js
+
+# Step 4: Write JavaScript Code (paste app.js)
+
+# Step 5: Run Application
 node app.js
-# Browser: http://PUBLIC-IP:3000  (allow TCP 3000 in the security group)
+
+# Step 6: Open Browser
+# Allow inbound TCP port 3000 in the EC2 security group and enter:
+# http://PUBLIC-IP:3000

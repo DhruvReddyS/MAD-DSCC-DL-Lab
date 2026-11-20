@@ -1,21 +1,23 @@
 import java.io.*;
 import java.net.*;
-import java.nio.file.*;
 
 public class FTPServer {
     public static void main(String[] args) throws Exception {
-        ServerSocket ss = new ServerSocket(5050);
-        System.out.println("Server started on port 5050...");
-        Socket s = ss.accept();                          // wait for a client
+        ServerSocket ss = new ServerSocket(5000);
+        System.out.println("Server Started...");
+        Socket s = ss.accept();
+
         BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 
-        String name = in.readLine();                     // file name from client
-        System.out.println("Client requested: " + name);
-        File f = new File(name);
-        if (f.isFile()) {
+        File file = new File(in.readLine());
+        if (file.isFile()) {
             out.println("FOUND");
-            for (String line : Files.readAllLines(f.toPath())) out.println(line);
+            BufferedReader fr = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = fr.readLine()) != null)
+                out.println(line);
+            fr.close();
         } else {
             out.println("NOTFOUND");
         }

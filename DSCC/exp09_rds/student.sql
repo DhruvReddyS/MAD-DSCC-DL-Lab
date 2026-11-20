@@ -7,13 +7,18 @@ CREATE TABLE student (
     marks INT
 );
 
--- CREATE (insert)
-INSERT INTO student VALUES (1, 'Adithya', 85), (2, 'Ravi', 72);
+-- INSERT
+INSERT INTO student VALUES
+(1, 'Adithya', 85);
+
 -- READ
 SELECT * FROM student;
+
 -- UPDATE
-UPDATE student SET marks = 90 WHERE id = 1;
-SELECT * FROM student;
+UPDATE student
+SET marks = 90
+WHERE id = 1;
+
 -- DELETE
-DELETE FROM student WHERE id = 2;
-SELECT * FROM student;
+DELETE FROM student
+WHERE id = 1;

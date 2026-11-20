@@ -1,0 +1,19 @@
+(Checked on cassandra:latest in Docker)
+
+cqlsh:store> SELECT * FROM shopping_cart;
+
+ userid | item_count | last_update_timestamp
+--------+------------+---------------------------------
+   1234 |          5 | 2026-11-20 17:13:19.634000+0000
+   9876 |          2 | 2026-11-20 17:13:19.627000+0000
+
+(2 rows)
+
+-- after UPDATE (9876 → 5) and DELETE (1234):
+cqlsh:store> SELECT * FROM shopping_cart;
+
+ userid | item_count | last_update_timestamp
+--------+------------+---------------------------------
+   9876 |          5 | 2026-11-20 17:13:19.641000+0000
+
+(1 rows)

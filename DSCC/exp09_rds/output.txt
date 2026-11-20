@@ -1,0 +1,18 @@
+(Output from the SQL commands, checked on MySQL 8.0)
+
+mysql> SELECT * FROM student;
++----+---------+-------+
+| id | name    | marks |
++----+---------+-------+
+|  1 | Adithya |    85 |
++----+---------+-------+
+1 row in set
+
+mysql> UPDATE student SET marks = 90 WHERE id = 1;
+Query OK, 1 row affected
+
+mysql> DELETE FROM student WHERE id = 1;
+Query OK, 1 row affected
+
+mysql> SELECT * FROM student;
+Empty set

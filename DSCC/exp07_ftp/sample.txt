@@ -1,2 +1,2 @@
-Hello from the FTP server!
-This file was sent over a socket.
+Hello from FTP Server
+This is sample.txt
